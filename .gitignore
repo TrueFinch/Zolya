@@ -1,0 +1,4 @@
+/vendor
+/dump/*
+!/dump/.gitkeep
+/.idea
