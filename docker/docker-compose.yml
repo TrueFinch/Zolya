@@ -16,6 +16,9 @@ services:
         expose:
             - 9000
         command: php-fpm -R -y /data/docker/php/php-fpm.conf
+#        environment:
+#            XDEBUG_CONFIG: "remote_host=217.150.72.94"
+#            PHP_IDE_CONFIG: "serverName=Test"
     composer:
         image: composer:1.6.3
         volumes:
@@ -35,3 +38,14 @@ services:
             MYSQL_PASSWORD: "app"
             MYSQL_DATABASE: "app"
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    portainer:
+      image: portainer/portainer
+      command: -H unix:///var/run/docker.sock
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      ports:
+        - 9090:9000
+
+volumes:
+  portainer_data:
