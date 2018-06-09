@@ -1,6 +1,18 @@
 <?php
 
 namespace App\Geometry;
+/**
+ * 
+ * @param float $a
+ * @param float $b
+ * @param float $c
+ * @param float $d
+ * @return float
+ */
+function det(float $a, float $b, float $c, float $d): float
+{
+    return $a * $d - $b * $c;
+}
 
 interface ShapeInterface
 {
@@ -18,4 +30,16 @@ interface ShapeInterface
      * @return float
      */
     public function getPerimeter(): float;
+
+    /**
+     * @param $shape
+     * @return array
+     */
+    public function intersect($shape): array;
+
+    /**
+     * @param Point $point
+     * @return bool
+     */
+    public function belong(Point $point): bool;
 }
