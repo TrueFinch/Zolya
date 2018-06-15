@@ -152,8 +152,64 @@ class Rectangle implements ShapeInterface
      * @param Line $line
      * @return array
      */
-    private function intersectLine(Line $line) {
+    private function intersectLine(Line $line): array
+    {
         return $line->intersect($this);
+    }
+
+    /**
+     * @param Rectangle $rect
+     * @return array
+     */
+    private function intersectRect(Rectangle $rect): array
+    {
+        /**
+         * @var array Array of Points
+         */
+        $result = array();
+
+        /**
+         * Sides of rectangle rect
+         * @var Line
+         */
+        $side_a1 = new Line($this->getPa(), $this->getPb());
+        $side_b1 = new Line($this->getPb(), $this->getPc());
+        $side_c1 = new Line($this->getPc(), $this->getPd());
+        $side_d1 = new Line($this->getPd(), $this->getPa());
+
+        $side_a2 = new Line($rect->getPa(), $rect->getPb());
+        $side_b2 = new Line($rect->getPb(), $rect->getPc());
+        $side_c2 = new Line($rect->getPc(), $rect->getPd());
+        $side_d2 = new Line($rect->getPd(), $rect->getPa());
+
+        $points = array();
+        $points = array_merge($points, $side_a1->intersect($side_a2));
+        $points = array_merge($points, $side_a1->intersect($side_b2));
+        $points = array_merge($points, $side_a1->intersect($side_c2));
+        $points = array_merge($points, $side_a1->intersect($side_d2));
+
+        $points = array_merge($points, $side_b1->intersect($side_a2));
+        $points = array_merge($points, $side_b1->intersect($side_b2));
+        $points = array_merge($points, $side_b1->intersect($side_c2));
+        $points = array_merge($points, $side_b1->intersect($side_d2));
+
+        $points = array_merge($points, $side_c1->intersect($side_a2));
+        $points = array_merge($points, $side_c1->intersect($side_b2));
+        $points = array_merge($points, $side_c1->intersect($side_c2));
+        $points = array_merge($points, $side_c1->intersect($side_d2));
+
+        $points = array_merge($points, $side_d1->intersect($side_a2));
+        $points = array_merge($points, $side_d1->intersect($side_b2));
+        $points = array_merge($points, $side_d1->intersect($side_c2));
+        $points = array_merge($points, $side_d1->intersect($side_d2));
+
+        for ($i = 0; $i < count($points); ++$i) {
+            if (array_search($points[$i], $result) == false) {
+                array_push($result, $points[$i]);
+            }
+        }
+
+        return $result;
     }
 
     /**
