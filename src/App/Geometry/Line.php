@@ -10,6 +10,10 @@ namespace App\Geometry;
 
 include 'ShapeInterface.php';
 
+/**
+ * Class Line
+ * @package App\Geometry
+ */
 class Line implements ShapeInterface
 {
     /**
@@ -26,6 +30,17 @@ class Line implements ShapeInterface
      * @var string $name_ name of class? idk
      */
     private $name_;
+
+    /**
+     * Line constructor.
+     * @param Point $pa_
+     * @param Point $pb_
+     */
+    public function __construct(Point $pa_, Point $pb_)
+    {
+        $this->pa_ = $pa_;
+        $this->pb_ = $pb_;
+    }
 
     /**
      * @return string
@@ -67,9 +82,56 @@ class Line implements ShapeInterface
         return $this->pb_;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters(): array
     {
         return array($this->a_, $this->b_, $this->c_);
+    }
+
+
+    /**
+     * @param Point $point
+     * @return bool
+     */
+    public function belong(Point $point): bool
+    {
+        /**
+         * @var array $p An array of parameters of line $this
+         */
+        $p = $this->getParameters();
+        /**
+         * @var double parameters of $this line
+         */
+//        $a1 = $p[0];
+//        $b1 = $p[1];
+//        $c1 = $p[2];
+        /**
+         * @var double $x1 - x coordinate of point A
+         * @var double $y1 - y coordinate of point A
+         * @var double $x2 - y coordinate of point B
+         * @var double $y2 - y coordinate of point B
+         */
+        $x1 = $this->getPa()->getX();
+        $y1 = $this->getPa()->getY();
+        $x2 = $this->getPb()->getX();
+        $y2 = $this->getPb()->getY();
+
+        if ($x2 > $x1) {
+            $c = $x2;
+            $x2 = $x1;
+            $x1 = $c;
+        }
+        if ($y2 > $y1) {
+            $c = $y2;
+            $y2 = $y1;
+            $y1 = $c;
+        }
+
+        return ((($point->getX() * $p[0] + $point->getY() * $p[1] + $p[2]) == 0)
+            and ($x2 <= $point->getX()) and ($point->getX() <= $x1)
+            and ($y2 <= $point->getY()) and ($point->getY() <= $y1));
     }
 
     /**
@@ -161,20 +223,4 @@ class Line implements ShapeInterface
         }
         return $result;
     }
-
-    public function belong(Point $point): bool
-    {
-        /**
-         * @var array of double
-         */
-        $p = $this->getParameters();
-        /**
-         * @var double parameters of $this line
-         */
-        $a1 = $p[0];
-        $b1 = $p[1];
-        $c1 = $p[2];
-        // TODO: Implement belong() method.
-    }
-
 }
