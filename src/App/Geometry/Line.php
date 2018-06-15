@@ -40,6 +40,7 @@ class Line implements ShapeInterface
     {
         $this->pa_ = $pa_;
         $this->pb_ = $pb_;
+        $this->recalculateParameters();
     }
 
     /**
@@ -83,6 +84,19 @@ class Line implements ShapeInterface
     }
 
     /**
+     * @param Point $point
+     */
+    public function setPa(Point $point): void
+    {
+        $this->pa_ = $point;
+    }
+
+    public function setPb(Point $point): void
+    {
+        $this->pb_ = $point;
+    }
+
+    /**
      * @return array
      */
     public function getParameters(): array
@@ -90,6 +104,9 @@ class Line implements ShapeInterface
         return array($this->a_, $this->b_, $this->c_);
     }
 
+    /**
+     *Recalculate parameters on changing point's coordinate
+     */
     public function recalculateParameters(): void
     {
         $this->a_ = $this->pa_->getY() - $this->pb_->getY();
