@@ -288,91 +288,39 @@ class Line implements ShapeInterface
      */
     private function intersectCircle(Circle $circle): array
     {
-        $result = array();
-        /**
-         * Parameters of line
-         * @var array
-         */
-        $v = $this->getParameters();
-        $a = $v[0];
-        $b = $v[1];
-        $c = $v[2];
-        /**
-         * X coordinate of the circle's center
-         * @var float
-         */
         $p = $circle->getCenter()->getX();
-        /**
-         * Y coordinate of the circle's center
-         * @var float
-         */
         $q = $circle->getCenter()->getY();
-        /**
-         * Radius of the circle
-         * @var float
-         */
-        $r = $circle->getRadius();
-        /**
-         * Distance from line to circle's center
-         */
-        $d = abs($a * $p + $b * $q + $c) / sqrt($a * $a + $b * $b);
+        $this->setPa(new Point($this->pa_->getX() - $p, $this->pa_->getY() - $q));
+        $this->setPb(new Point($this->pb_->getX() - $p, $this->pb_->getY() - $q));
+        $result = $circle->intersect($this);
+        $this->setPa(new Point($this->pa_->getX() + $p, $this->pa_->getY() + $q));
+        $this->setPb(new Point($this->pb_->getX() + $p, $this->pb_->getY() + $q));
+        return $result;
 
-        if ($d <= $r) {
-            $p1 = new Point(42, 42);
-            $p2 = new Point(42, 42);
-            if ($b == 0) {
-                $p1->setX((-1) * $c / $a);
-                $p1->setY($q + sqrt(($r - $c / $a - $p) * ($r + $c / $a + $p)));
-                $p2->setX((-1) * $c / $a);
-                $p2->setY($q - sqrt(($r - $c / $a - $p) * ($r + $c / $a + $p)));
-            } else {
-                $k = $b * $b * $p - $a * ($b * $q + $c);
-                $s = $a * $a + $b * $b;
-                $t = $b * sqrt($r * $r * $s - pow($a * $p + $b * $q + $c, 2));
-                $p1->setX(($k + $t) / $s);
-                $p1->setY((-1) * ($a * $p1->getX() + $c) / $b);
-                $p2->setX(($k - $t) / $s);
-                $p2->setY((-1) * ($a * $p2->getX() + $c) / $b);
-            }
-            if ($d == $r) {
-                if ($this->belong($p1)) {
-                    array_push($result, $p1);
-                }
-            } elseif ($d < $r) {
-                if ($this->belong($p1)) {
-                    array_push($result, $p1);
-                }
-                if ($this->belong($p2)) {
-                    array_push($result, $p2);
-                }
-            }
+    }
+
+    /**
+     * @param $shape
+     * @return array
+     */
+    public
+    function intersect($shape): array
+    {
+        /**
+         * @var array of Points
+         */
+        $result = array();
+        switch (gettype($shape)) {
+            case "Line":
+                $result = $this->intersectLine($shape);
+                break;
+            case "Rectangle":
+                $result = $this->intersectRect($shape);
+                break;
+            case "Circle":
+                $result = $this->intersectCircle($shape);
+                break;
         }
         return $result;
     }
-
-
-/**
- * @param $shape
- * @return array
- */
-public
-function intersect($shape): array
-{
-    /**
-     * @var array of Points
-     */
-    $result = array();
-    switch (gettype($shape)) {
-        case "Line":
-            $result = $this->intersectLine($shape);
-            break;
-        case "Rectangle":
-            $result = $this->intersectRect($shape);
-            break;
-        case "Circle":
-            $result = $this->intersectCircle($shape);
-            break;
-    }
-    return $result;
-}
 }
