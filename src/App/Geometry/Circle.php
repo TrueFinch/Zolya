@@ -13,7 +13,7 @@ class Circle
 {
     /**
      * Center of the circle
-     * @var double
+     * @var Point
      */
     private $center_;
     /**
@@ -23,9 +23,9 @@ class Circle
     private $radius_;
 
     /**
-     * @return float
+     * @return Point
      */
-    public function getCenter(): float
+    public function getCenter(): Point
     {
         return $this->center_;
     }
