@@ -11,5 +11,15 @@ namespace App\Geometry;
 
 class Circle
 {
+    /**
+     * Center of the circle
+     * @var double
+     */
+    private $center_;
+    /**
+     * Radius of the circle
+     * @var double
+     */
+    private $radius_;
 
 }

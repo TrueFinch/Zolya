@@ -22,7 +22,8 @@ class Line implements ShapeInterface
     private $pa_, $pb_;
 
     /**
-     * @var double parameters of line equation
+     * Parameters of line equation
+     * @var float
      */
     private $a_, $b_, $c_;
 
@@ -271,6 +272,26 @@ class Line implements ShapeInterface
 
         return $result;
     }
+
+    /**
+     * @param Circle $circle
+     * @return array
+     */
+    private function intersectCircle(Circle $circle): array
+    {
+        $result = array();
+        /**
+         * Parameters of line
+         * @var array
+         */
+        $v = $this->getParameters();
+        $a = $v[0];
+        $b = $v[1];
+        $c = $v[2];
+
+        return $result;
+    }
+
 
     /**
      * @param $shape
