@@ -204,6 +204,37 @@ class Rectangle implements ShapeInterface
         $points = array_merge($points, $side_d1->intersect($side_d2));
 
         for ($i = 0; $i < count($points); ++$i) {
+            if ((array_search($points[$i], $result) == false)
+                and ($this->belong($points[$i])) and ($rect->belong($points[$i]))) {
+                array_push($result, $points[$i]);
+            }
+        }
+
+        return $result;
+    }
+
+    private function intersectCircle(Circle $circle): array
+    {
+        /**
+         * @var array Array of Points
+         */
+        $result = array();
+        /**
+         * Sides of rectangle rect
+         * @var Line
+         */
+        $side_a = new Line($this->getPa(), $this->getPb());
+        $side_b = new Line($this->getPb(), $this->getPc());
+        $side_c = new Line($this->getPc(), $this->getPd());
+        $side_d = new Line($this->getPd(), $this->getPa());
+
+        $points = array();
+        $points = array_merge($points, $side_a->intersect($circle));
+        $points = array_merge($points, $side_b->intersect($circle));
+        $points = array_merge($points, $side_c->intersect($circle));
+        $points = array_merge($points, $side_d->intersect($circle));
+
+        for ($i = 0; $i < count($points); ++$i) {
             if (array_search($points[$i], $result) == false) {
                 array_push($result, $points[$i]);
             }
