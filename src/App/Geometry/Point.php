@@ -7,12 +7,12 @@ class Point
     /**
      * @var float
      */
-    private $x;
+    private $x_;
 
     /**
      * @var float
      */
-    private $y;
+    private $y_;
 
     /**
      * Point constructor.
@@ -21,8 +21,8 @@ class Point
      */
     public function __construct(float $x, float $y)
     {
-        $this->x = $x;
-        $this->y = $y;
+        $this->x_ = $x;
+        $this->y_ = $y;
     }
 
     /**
@@ -30,7 +30,15 @@ class Point
      */
     public function getX(): float
     {
-        return $this->x;
+        return $this->x_;
+    }
+
+    /**
+     * @param float $x
+     */
+    public function setX(float $x): void
+    {
+        $this->x_ = $x;
     }
 
     /**
@@ -38,7 +46,15 @@ class Point
      */
     public function getY(): float
     {
-        return $this->y;
+        return $this->y_;
+    }
+
+    /**
+     * @param float $y
+     */
+    public function setY(float $y): void
+    {
+        $this->y_ = $y;
     }
 
     /**
@@ -48,7 +64,7 @@ class Point
     public function distance(Point $other): float
     {
         return sqrt(
-            pow($this->x - $other->getX(), 2) + pow($this->y - $other->getY(), 2)
+            pow($this->x_ - $other->getX(), 2) + pow($this->y_ - $other->getY(), 2)
         );
     }
 }
