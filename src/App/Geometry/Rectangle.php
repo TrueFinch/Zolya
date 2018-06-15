@@ -106,8 +106,7 @@ class Rectangle implements ShapeInterface
      */
     public function getPerimeter(): float
     {
-        return $this->pa_->distance($this->pb_) + $this->pb_->distance($this->pc_)
-            + $this->pc_->distance($this->pd_) + $this->pd_->distance($this->pa_);
+        return 2 * ($this->pa_->distance($this->pb_) + $this->pb_->distance($this->pc_));
     }
 
     /**
@@ -261,10 +260,9 @@ class Rectangle implements ShapeInterface
                 $result = $this->intersectRect($shape);
                 break;
             case "Circle":
+                $result = $this->intersectCircle($shape);
                 break;
         }
         return $result;
     }
-
-    //TODO: Realize class Rectangle
 }
