@@ -76,6 +76,14 @@ class Line implements ShapeInterface
     }
 
     /**
+     * @param Point $point
+     */
+    public function setPa(Point $point): void
+    {
+        $this->pa_ = $point;
+    }
+
+    /**
      * @return Point
      */
     public function getPb(): Point
@@ -86,11 +94,6 @@ class Line implements ShapeInterface
     /**
      * @param Point $point
      */
-    public function setPa(Point $point): void
-    {
-        $this->pa_ = $point;
-    }
-
     public function setPb(Point $point): void
     {
         $this->pb_ = $point;
@@ -172,11 +175,13 @@ class Line implements ShapeInterface
     private function intersectLine(Line $line): array
     {
         /**
-         * @var array of Points
+         * Array of Points
+         * @var array
          */
         $result = array();
         /**
-         * @var array of double
+         * Array of double
+         * @var array
          */
         $p = $this->getParameters();
         /**
@@ -186,7 +191,8 @@ class Line implements ShapeInterface
         $b1 = $p[1];
         $c1 = $p[2];
         /**
-         * @var array of double
+         * Array of double
+         * @var array
          */
         $p = $line->getParameters();
         /**
@@ -234,6 +240,39 @@ class Line implements ShapeInterface
     }
 
     /**
+     * @param Rectangle $rect
+     * @return array
+     */
+    private function intersectRect(Rectangle $rect): array
+    {
+        /**
+         * @var array Array of Points
+         */
+        $result = array();
+        /**
+         * Sides of rectangle rect
+         * @var Line
+         */
+        $side_a = new Line($rect->getPa(), $rect->getPb());
+        $side_b = new Line($rect->getPb(), $rect->getPc());
+        $side_c = new Line($rect->getPc(), $rect->getPd());
+        $side_d = new Line($rect->getPd(), $rect->getPa());
+
+        $points = $this->intersectLine($side_a);
+        $points = array_merge($points, $this->intersectLine($side_b));
+        $points = array_merge($points, $this->intersectLine($side_c));
+        $points = array_merge($points, $this->intersectLine($side_d));
+
+        for ($i = 0; $i < count($points); ++$i) {
+            if (array_search($points[$i], $result) == false) {
+                array_push($result, $points[$i]);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @param $shape
      * @return array
      */
@@ -248,6 +287,7 @@ class Line implements ShapeInterface
                 $result = $this->intersectLine($shape);
                 break;
             case "Rectangle":
+                $result = $this->intersectRect($shape);
                 break;
             case "Circle":
                 break;
