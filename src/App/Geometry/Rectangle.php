@@ -34,6 +34,7 @@ class Rectangle implements ShapeInterface
         $this->pb_ = $pb_;
         $this->pc_ = $pc_;
         $this->pd_ = $pd_;
+        $this->setName('Rectangle');
     }
 
     /**
@@ -137,7 +138,14 @@ class Rectangle implements ShapeInterface
     public function getName(): string
     {
         return $this->name_;
-        // TODO: Implement getName() method.
+    }
+
+    /**
+     * @param string $name_
+     */
+    public function setName(string $name_): void
+    {
+        $this->name_ = $name_;
     }
 
     /**

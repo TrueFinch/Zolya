@@ -22,6 +22,11 @@ interface ShapeInterface
     public function getName(): string;
 
     /**
+     * @param string $name
+     */
+    public function setName(string $name): void;
+
+    /**
      * @return float
      */
     public function getArea(): float;

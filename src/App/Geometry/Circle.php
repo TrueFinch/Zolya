@@ -25,6 +25,24 @@ class Circle
     /**
      * @return Point
      */
+
+    /**
+     * @var string $name_ name of class? idk
+     */
+    private $name_;
+
+    /**
+     * Circle constructor.
+     * @param Point $center_
+     * @param float $radius_
+     */
+    public function __construct(Point $center_, float $radius_)
+    {
+        $this->center_ = $center_;
+        $this->radius_ = $radius_;
+        $this->setName('Circle');
+    }
+
     public function getCenter(): Point
     {
         return $this->center_;
@@ -52,6 +70,22 @@ class Circle
     public function setRadius(float $radius_): void
     {
         $this->radius_ = $radius_;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name_;
+    }
+
+    /**
+     * @param string $name_
+     */
+    public function setName(string $name_): void
+    {
+        $this->name_ = $name_;
     }
 
 }

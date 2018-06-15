@@ -41,6 +41,7 @@ class Line implements ShapeInterface
     {
         $this->pa_ = $pa_;
         $this->pb_ = $pb_;
+        $this->setName('Line');
         $this->recalculateParameters();
     }
 
@@ -50,6 +51,14 @@ class Line implements ShapeInterface
     public function getName(): string
     {
         return $this->name_;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name_ = $name;
     }
 
     /**
