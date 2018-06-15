@@ -90,6 +90,20 @@ class Line implements ShapeInterface
         return array($this->a_, $this->b_, $this->c_);
     }
 
+    public function recalculateParameters(): void
+    {
+        $this->a_ = $this->pa_->getY() - $this->pb_->getY();
+        $this->b_ = $this->pb_->getX() - $this->pa_->getX();
+        $this->c_ = $this->pa_->getX() * $this->pb_->getY() - $this->pb_->getX() * $this->pa_->getY();
+        if ($this->a_ < 0) {
+            $this->a_ *= (-1);
+            $this->b_ *= (-1);
+            $this->c_ *= (-1);
+        } elseif (($this->b_ < 0) and ($this->a_ == 0)) {
+            $this->b_ *= (-1);
+            $this->c_ *= (-1);
+        }
+    }
 
     /**
      * @param Point $point
