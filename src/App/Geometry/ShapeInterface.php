@@ -1,18 +1,7 @@
 <?php
 
 namespace App\Geometry;
-/**
- * 
- * @param float $a
- * @param float $b
- * @param float $c
- * @param float $d
- * @return float
- */
-function det(float $a, float $b, float $c, float $d): float
-{
-    return $a * $d - $b * $c;
-}
+
 
 interface ShapeInterface
 {
@@ -20,11 +9,6 @@ interface ShapeInterface
      * @return string
      */
     public function getName(): string;
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void;
 
     /**
      * @return float
@@ -40,7 +24,7 @@ interface ShapeInterface
      * @param $shape
      * @return array
      */
-    public function intersect($shape): array;
+    public function intersect(ShapeInterface $shape): array;
 
     /**
      * @param Point $point
