@@ -9,6 +9,10 @@
 namespace App\Geometry;
 
 
+/**
+ * Class Rectangle
+ * @package App\Geometry
+ */
 class Rectangle implements ShapeInterface
 {
     /**
@@ -212,6 +216,10 @@ class Rectangle implements ShapeInterface
         return $result;
     }
 
+    /**
+     * @param Circle $circle
+     * @return array
+     */
     private function intersectCircle(Circle $circle): array
     {
         /**
@@ -234,7 +242,13 @@ class Rectangle implements ShapeInterface
         $points = array_merge($points, $side_d->intersect($circle));
 
         for ($i = 0; $i < count($points); ++$i) {
-            if (array_search($points[$i], $result) == false) {
+            $point_exist = false;
+            for ($j = 0; ($j < count($result)) and (!$point_exist); ++$j) {
+                if ($result[$j] == $points[$i]) {
+                    $point_exist = true;
+                }
+            }
+            if (! $point_exist) {
                 array_push($result, $points[$i]);
             }
         }
@@ -252,7 +266,7 @@ class Rectangle implements ShapeInterface
          * @var array of Points
          */
         $result = array();
-        switch (gettype($shape)) {
+        switch ($shape->getName()) {
             case "Line":
                 $result = $this->intersectLine($shape);
                 break;
