@@ -8,8 +8,6 @@
 
 namespace App\Geometry;
 
-include 'ShapeInterface.php';
-
 /**
  * Class Line
  * @package App\Geometry
@@ -17,20 +15,21 @@ include 'ShapeInterface.php';
 class Line implements ShapeInterface
 {
     /**
-     * @var Point boundaries of a segment
+     * Name of class
+     */
+    private const NAME = 'Line';
+
+    /**
+     * Boundaries of a segment
+     * @var Point
      */
     private $pa_, $pb_;
 
     /**
-     * Parameters of line equation
+     * Parameters of the line equation "Ax + By + C = 0"
      * @var float
      */
     private $a_, $b_, $c_;
-
-    /**
-     * @var string $name_ name of class? idk
-     */
-    private $name_;
 
     /**
      * Line constructor.
@@ -41,27 +40,20 @@ class Line implements ShapeInterface
     {
         $this->pa_ = $pa_;
         $this->pb_ = $pb_;
-        $this->setName('Line');
         $this->recalculateParameters();
     }
 
     /**
+     * Returns name of the shape
      * @return string
      */
     public function getName(): string
     {
-        return $this->name_;
+        return self::NAME;
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name_ = $name;
-    }
-
-    /**
+     * Line does not have area, so returns -1
      * @return float
      */
     public function getArea(): float
@@ -70,6 +62,7 @@ class Line implements ShapeInterface
     }
 
     /**
+     * Returns the line length
      * @return float
      */
     public function getPerimeter(): float
@@ -78,6 +71,16 @@ class Line implements ShapeInterface
     }
 
     /**
+     * Literally same method as getPerimeter
+     * @return float
+     */
+    public function length()
+    {
+        return $this->getPerimeter();
+    }
+
+    /**
+     * Returns the point A
      * @return Point
      */
     public function getPa(): Point
@@ -86,14 +89,17 @@ class Line implements ShapeInterface
     }
 
     /**
+     * Sets the point A
      * @param Point $point
      */
     public function setPa(Point $point): void
     {
         $this->pa_ = $point;
+        $this->recalculateParameters();
     }
 
     /**
+     * Returns the point B
      * @return Point
      */
     public function getPb(): Point
@@ -102,14 +108,17 @@ class Line implements ShapeInterface
     }
 
     /**
+     * Sets the point B
      * @param Point $point
      */
     public function setPb(Point $point): void
     {
         $this->pb_ = $point;
+        $this->recalculateParameters();
     }
 
     /**
+     * Returns parameters of the line equation
      * @return array
      */
     public function getParameters(): array
@@ -118,7 +127,8 @@ class Line implements ShapeInterface
     }
 
     /**
-     *Recalculate parameters on changing point's coordinate
+     * Recalculate parameters on changing point's coordinate
+     * It returns nothing
      */
     public function recalculateParameters(): void
     {
@@ -239,8 +249,8 @@ class Line implements ShapeInterface
             /**
              * @var double
              */
-            $x = (-$zn3) / $zn1;
-            $y = ($zn2) / $zn1;
+            $x = ($zn3) / $zn1;
+            $y = (-$zn2) / $zn1;
             $point = new Point($x, $y);
             if ($this->belong($point) and $line->belong($point)) {
                 array_push($result, $point);
@@ -288,29 +298,20 @@ class Line implements ShapeInterface
      */
     private function intersectCircle(Circle $circle): array
     {
-        $p = $circle->getCenter()->getX();
-        $q = $circle->getCenter()->getY();
-        $this->setPa(new Point($this->pa_->getX() - $p, $this->pa_->getY() - $q));
-        $this->setPb(new Point($this->pb_->getX() - $p, $this->pb_->getY() - $q));
-        $result = $circle->intersect($this);
-        $this->setPa(new Point($this->pa_->getX() + $p, $this->pa_->getY() + $q));
-        $this->setPb(new Point($this->pb_->getX() + $p, $this->pb_->getY() + $q));
-        return $result;
-
+        return $circle->intersect($this);
     }
 
     /**
      * @param $shape
      * @return array
      */
-    public
-    function intersect($shape): array
+    public function intersect(ShapeInterface $shape): array
     {
         /**
          * @var array of Points
          */
         $result = array();
-        switch (gettype($shape)) {
+        switch ($shape->getName()) {
             case "Line":
                 $result = $this->intersectLine($shape);
                 break;
