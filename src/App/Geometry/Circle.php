@@ -151,8 +151,43 @@ class Circle implements ShapeInterface
          * @var float
          */
         $r = $this->radius_;
-
-
+//        $d = abs($a_ * $p + $b_ * $q + $c_) / sqrt($a_ * $a_ + $b_ * $b_);
+//        if ($d <= $r) {
+//            $x1 = 0;
+//            $y1 = 0;
+//            $x2 = 0;
+//            $y2 = 0;
+//            if ($b_ == 0) {
+//                $y1 = $q + sqrt(($r - $c_ / $a_ - $p) * ($r + $c_ / $a_ + $p));
+//                $x1 = (-1) * $c_ / $a_;
+//                $y2 = $q - sqrt(($r - $c_ / $a_ - $p) * ($r + $c_ / $a_ + $p));
+//                $x2 = (-1) * $c_ / $a_;
+//            } else {
+//                $k = $b_ * $b_ * $p - $a_ * ($b_ * $q + $c_);
+//                $s = $a_ * $a_ + $b_ * $b_;
+//                $t = $b_ * sqrt($r * $r * $s - pow($a_ * $p + $b_ * $q + $c_, 2));
+//                $x1 = ($k + $t) / $s;
+//                $y1 = (-1) * ($a_ * $x1 + $c_) / $b_;
+//                $x2 = ($k - $t) / $s;
+//                $y2 = (-1) * ($a_ * $x2 + $c_) / $b_;
+//            }
+//            if ($d == $r) {
+//                $point = new Point($x1, $y1);
+//                if ($this->belong($point)) {
+//                    array_push($result, $point);
+//                }
+//            } else if ($d < $r) {
+//                $p1 = new Point($x1, $y1);
+//                $p2 = new POint($x2, $y2);
+//                if ($this->belong($p1)) {
+//                    array_push($result, $p1);
+//                }
+//                if ($this->belong($p2)) {
+//                    array_push($result, $p2);
+//                }
+//            }
+//        }
+//        return $result;
         /**
          * Coordinates of nearest point to circle center
          * @var float
@@ -206,7 +241,7 @@ class Circle implements ShapeInterface
         $r1 = $this->radius_;
 
         /**
-         * Coordinates x and y and radius of other circle
+         * Shifted to the center coordinates x and y and radius of other circle
          * @var float
          * @var float
          * @var float
@@ -225,7 +260,10 @@ class Circle implements ShapeInterface
                 array_push($result, $p2);
             }
         } else {
-            $result = $this->intersectLine(-2 * $cx2, -2 * $cy2, $cx2 + $cy2 - $r2 + $r1);
+            $result = $this->intersectLine(-2 * $cx2,
+                -2 * $cy2,
+                $cx2 * $cx2 + $cy2 * $cy2 - $r2 * $r2 + $r1 * $r1
+            );
         }
         return $result;
     }
@@ -234,7 +272,7 @@ class Circle implements ShapeInterface
      * @param $shape
      * @return array
      */
-    public function intersect($shape): array
+    public function intersect(ShapeInterface $shape): array
     {
         /**
          * @var array of Points
