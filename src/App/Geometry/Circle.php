@@ -9,6 +9,10 @@
 namespace App\Geometry;
 
 
+/**
+ * Class Circle
+ * @package App\Geometry
+ */
 class Circle implements ShapeInterface
 {
     /**
@@ -43,6 +47,9 @@ class Circle implements ShapeInterface
         $this->setName('Circle');
     }
 
+    /**
+     * @return Point
+     */
     public function getCenter(): Point
     {
         return $this->center_;
@@ -177,6 +184,10 @@ class Circle implements ShapeInterface
         return $rect->intersect($this);
     }
 
+    /**
+     * @param Circle $circle
+     * @return array
+     */
     public function intersectCircle(Circle $circle): array
     {
         /**
@@ -229,10 +240,21 @@ class Circle implements ShapeInterface
          * @var array of Points
          */
         $result = array();
-        switch (gettype($shape)) {
+        switch ($shape->getName()) {
             case "Line":
-                $p = $shape->getParameters();
-                $result = $this->intersectLine($p[0], $p[1], $p[2]);
+                $p = $this->getCenter()->getX();
+                $q = $this->getCenter()->getY();
+                $shape->setPa(new Point($shape->getPa()->getX() - $p, $shape->getPa()->getY() - $q));
+                $shape->setPb(new Point($shape->getPb()->getX() - $p, $shape->getPb()->getY() - $q));
+                $param = $shape->getParameters();
+                $result = $this->intersectLine($param[0], $param[1], $param[2]);
+                $shape->setPa(new Point($shape->getPa()->getX() + $p, $shape->getPa()->getY() + $q));
+                $shape->setPb(new Point($shape->getPb()->getX() + $p, $shape->getPb()->getY() + $q));
+                for ($i = 0; $i < count($result); ++$i) {
+                    if (!$shape->belong($result[$i])) {
+                        array_splice($result, $i, 1);
+                    }
+                }
                 break;
             case "Rectangle":
                 $result = $this->intersectRect($shape);
