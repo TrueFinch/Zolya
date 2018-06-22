@@ -47,5 +47,17 @@ services:
       ports:
         - 9090:9000
 
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:4.8.0
+      ports:
+        - 8081:80
+      environment:
+        MYSQL_USER: "app"
+        MYSQL_PASSWORD: "app"
+        PMA_HOST: mysql
+        PMA_PORT: 3306
+      depends_on:
+        - mysql
+
 volumes:
   portainer_data:
