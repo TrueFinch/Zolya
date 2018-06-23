@@ -33,7 +33,7 @@ class Circle implements ShapeInterface
     /**
      * @var string $name_ name of class? idk
      */
-    private $name_;
+    private const NAME = 'Circle';
 
     /**
      * Circle constructor.
@@ -44,7 +44,6 @@ class Circle implements ShapeInterface
     {
         $this->center_ = $center_;
         $this->radius_ = $radius_;
-        $this->setName('Circle');
     }
 
     /**
@@ -58,9 +57,9 @@ class Circle implements ShapeInterface
     /**
      * @param float $center_
      */
-    public function setCenter(float $center_): void
+    public function setCenter(Point $center): void
     {
-        $this->center_ = $center_;
+        $this->center_ = $center;
     }
 
     /**
@@ -72,11 +71,16 @@ class Circle implements ShapeInterface
     }
 
     /**
-     * @param float $radius_
+     * @param float $radius
+     * @return bool
      */
-    public function setRadius(float $radius_): void
+    public function setRadius(float $radius): bool
     {
-        $this->radius_ = $radius_;
+        if ($radius < 0) {
+            return false;
+        }
+        $this->radius_ = $radius;
+        return true;
     }
 
     /**
@@ -84,15 +88,7 @@ class Circle implements ShapeInterface
      */
     public function getName(): string
     {
-        return $this->name_;
-    }
-
-    /**
-     * @param string $name_
-     */
-    public function setName(string $name_): void
-    {
-        $this->name_ = $name_;
+        return self::NAME;
     }
 
     /**
