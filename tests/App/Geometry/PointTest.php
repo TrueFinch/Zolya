@@ -2,7 +2,10 @@
 
 namespace AppTest\Geometry;
 
+use App\Geometry\Circle;
+use App\Geometry\Line;
 use App\Geometry\Point;
+use App\Geometry\Rectangle;
 use PHPUnit\Framework\TestCase;
 
 class PointTest extends TestCase

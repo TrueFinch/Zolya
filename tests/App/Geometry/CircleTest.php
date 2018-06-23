@@ -118,48 +118,92 @@ class CircleTest extends TestCase
         }
     }
 
-    public function testSetRadius()
+    public function setRadiusDataProvider()
     {
+        return [
+          [new Circle(new Point(0, 0), 2), 2, true, 2],
+          [new Circle(new Point(0, 0), 2), -2, false, 2],
+          [new Circle(new Point(0, 0), 2), 3, true, 3],
+          [new Circle(new Point(0, 0), 2), -3, false, 2],
+          [new Circle(new Point(0, 0), 2), 125, true, 125],
+          [new Circle(new Point(0, 0), 2), 0, true, 0],
+          [new Circle(new Point(0, 0), 2), 4, true, 4]
+        ];
+    }
+
+    /**
+     * @dataProvider setRadiusDataProvider
+     * @param Circle $circle
+     * @param float $new_radius
+     * @param bool $result
+     * @param float $expected_radius
+     */
+    public function testGetSetRadius(Circle $circle, float $new_radius, bool $result, float $expected_radius)
+    {
+        $this->assertEquals($result, $circle->setRadius($new_radius));
+        $this->assertEquals($expected_radius, $circle->getRadius());
+    }
+
+    public function setCenterDataProvider()
+    {
+        return [
+            [new Circle(new Point(0, 0), 2), new Point(-1,-1)],
+            [new Circle(new Point(0, 0), 2), new Point(-1,1)],
+            [new Circle(new Point(0, 0), 2), new Point(1,-1)],
+            [new Circle(new Point(0, 0), 2), new Point(1,1)]
+        ];
+    }
+
+    /**
+     * @dataProvider setCenterDataProvider
+     * @param Circle $circle
+     * @param Point $new_center
+     */
+    public function testSetCenter(Circle $circle, Point $new_center)
+    {
+        $circle->setCenter($new_center);
+        $this->assertEquals($new_center->getX(), $circle->getCenter()->getX());
+        $this->assertEquals($new_center->getY(), $circle->getCenter()->getY());
 
     }
 
-    public function testSetName()
+    public function getPerimeterDataProvider()
     {
-
+        return [
+            [new Circle(new Point(0, 0), 2), 2 * pi() * 2],
+            [new Circle(new Point(0, 0), 0), 2 * pi() * 0],
+            [new Circle(new Point(0, 0), 1), 2 * pi() * 1],
+            [new Circle(new Point(0, 0), 42), 2 * pi() * 42]
+        ];
     }
 
-    public function testIntersectCircle()
+    /**
+     * @dataProvider getPerimeterDataProvider
+     * @param Circle $circle
+     * @param float $perimeter
+     */
+    public function testGetPerimeter(Circle $circle, float $perimeter)
     {
-
+        $this->assertEquals($perimeter, $circle->getPerimeter());
     }
 
-    public function testSetCenter()
+    public function getAreaDataProvider()
     {
-
+        return [
+            [new Circle(new Point(0, 0), 2), pi() * 2 * 2],
+            [new Circle(new Point(0, 0), 0), pi() * 0 * 0],
+            [new Circle(new Point(0, 0), 1), pi() * 1 * 1],
+            [new Circle(new Point(0, 0), 42),pi() * 42 * 42]
+        ];
     }
 
-    public function testGetPerimeter()
+    /**
+     * @dataProvider getAreaDataProvider
+     * @param Circle $circle
+     * @param float $area
+     */
+    public function testGetArea(Circle $circle, float $area)
     {
-
-    }
-
-    public function testGetCenter()
-    {
-
-    }
-
-    public function testIntersectLine()
-    {
-
-    }
-
-    public function testGetRadius()
-    {
-
-    }
-
-    public function testGetArea()
-    {
-
+        $this->assertEquals($area, $circle->getArea());
     }
 }
