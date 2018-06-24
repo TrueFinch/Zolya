@@ -51,6 +51,14 @@ class CircleTest extends TestCase
         return [
             [
                 new Circle(new Point(0, 0), 2), /**circle*/
+                new Rectangle(new Point(0, 2), /**rect*/
+                    new Point(0, 3),
+                    new Point(3, 3),
+                    new Point(3, 2)),
+                [new Point(0, 2)]/**expected*/
+            ],
+            [
+                new Circle(new Point(0, 0), 2), /**circle*/
                 new Rectangle(new Point(-8, -2), /**rect*/
                     new Point(-8, 2),
                     new Point(0, 2),
