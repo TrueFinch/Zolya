@@ -55,7 +55,7 @@ class Circle implements ShapeInterface
     }
 
     /**
-     * @param float $center_
+     * @param Point $center
      */
     public function setCenter(Point $center): void
     {

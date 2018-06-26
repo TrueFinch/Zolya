@@ -343,6 +343,6 @@ class Line implements ShapeInterface
      */
     public function getAngle(Line $other): float
     {
-        return acos($this->dotProduct($other) / sqrt($this->dotProduct($this) * $other->dotProduct($other)));
+        return ($this->dotProduct($other) == 0) ? (pi() / 2) : (acos($this->dotProduct($other) / sqrt($this->dotProduct($this) * $other->dotProduct($other))));
     }
 }
