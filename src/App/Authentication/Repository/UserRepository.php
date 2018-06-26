@@ -50,7 +50,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findByLogin(string $login): ?UserInterface
     {
+        $query = $this->db_->prepare('SELECT * FROM users WHERE login = :login');
+        $query->bind_param(':login', $login);
+        $query->execute();
+        $record = $query->get_result()->fetch_assoc();
+        $query->close();
+        return ($record) ? ($record) : (null);
         // TODO: Implement findByLogin() method.
+        // TODO: Rewrite return part - we need return UserInterface instead of array.
     }
 
     /**
@@ -60,6 +67,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserInterface $user)
     {
-        // TODO: Implement save() method.
+        if ($user) {
+            $query = $this->db_->prepare('Insert into users (login, password, salt) 
+                                                 values (:login, :password, :salt)');
+            $query->bind_param(':login', $user->getLogin());
+            $query->bind_param(':password', $user->getPassword());
+            $query->bind_param(':salt', $user->getSalt());
+            $query->execute();
+            $query->close();
+        }
     }
 }
