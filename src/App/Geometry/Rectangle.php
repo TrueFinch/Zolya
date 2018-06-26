@@ -44,19 +44,11 @@ class Rectangle implements ShapeInterface
      */
     public function __construct(Point $pa_, Point $pb_, Point $pc_, Point $pd_)
     {
-        $ab = new Line($pa_, $pb_);
-        $cb = new Line($pc_, $pb_);
-        $cd = new Line($pc_, $pd_);
-        $ad = new Line($pa_, $pd_);
-        if (($ab->getAngle($ad) == (pi() / 2)) and ($cb->getAngle($cd) == (pi() / 2))) {
-            $this->pa_ = $pa_;
-            $this->pb_ = $pb_;
-            $this->pc_ = $pc_;
-            $this->pd_ = $pd_;
-            $this->is_invalid_ = true;
-        } else {
-            $this->is_invalid_ = false;
-        }
+        $this->pa_ = $pa_;
+        $this->pb_ = $pb_;
+        $this->pc_ = $pc_;
+        $this->pd_ = $pd_;
+        $this->checkIsInvalid();
     }
 
     /**
@@ -73,6 +65,7 @@ class Rectangle implements ShapeInterface
     public function setPa(Point $pa_): void
     {
         $this->pa_ = $pa_;
+        $this->checkIsInvalid();
     }
 
     /**
@@ -89,6 +82,7 @@ class Rectangle implements ShapeInterface
     public function setPb(Point $pb_): void
     {
         $this->pb_ = $pb_;
+        $this->checkIsInvalid();
     }
 
     /**
@@ -105,6 +99,7 @@ class Rectangle implements ShapeInterface
     public function setPc(Point $pc_): void
     {
         $this->pc_ = $pc_;
+        $this->checkIsInvalid();
     }
 
     /**
@@ -121,6 +116,7 @@ class Rectangle implements ShapeInterface
     public function setPd(Point $pd_): void
     {
         $this->pd_ = $pd_;
+        $this->checkIsInvalid();
     }
 
     /**
@@ -301,10 +297,23 @@ class Rectangle implements ShapeInterface
         return $result;
     }
 
+    public function checkIsInvalid()
+    {
+        $ab = new Line($this->getPa(), $this->getPb());
+        $cb = new Line($this->getPc(), $this->getPb());
+        $cd = new Line($this->getPc(), $this->getPd());
+        $ad = new Line($this->getPa(), $this->getPd());
+        if ((abs($ab->getAngle($ad) - (pi() / 2)) < EPS) and (abs($cb->getAngle($cd) - (pi() / 2)) < EPS)) {
+            $this->is_invalid_ = true;
+        } else {
+            $this->is_invalid_ = false;
+        }
+    }
+
     /**
      * @return bool
      */
-    public function isInvalid()
+    public function isInvalid(): bool
     {
         return $this->is_invalid_;
     }
