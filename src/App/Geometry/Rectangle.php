@@ -16,7 +16,17 @@ namespace App\Geometry;
 class Rectangle implements ShapeInterface
 {
     /**
-     * @var Point boundaries of a segment
+     * True if rectangle is valid, false if invalid
+     * @var bool
+     */
+    private $is_invalid_ = false;
+
+    /**
+     * $pa_ - left bottom point of rectangle
+     * $pb_ - left top point of rectangle
+     * $pc_ - right top point of rectangle
+     * $pd_ - right bottom point of rectangle
+     * @var Point
      */
     private $pa_, $pb_, $pc_, $pd_;
 
@@ -34,11 +44,19 @@ class Rectangle implements ShapeInterface
      */
     public function __construct(Point $pa_, Point $pb_, Point $pc_, Point $pd_)
     {
-        $this->pa_ = $pa_;
-        $this->pb_ = $pb_;
-        $this->pc_ = $pc_;
-        $this->pd_ = $pd_;
-        $this->setName('Rectangle');
+        $ab = new Line($pa_, $pb_);
+        $cb = new Line($pc_, $pb_);
+        $cd = new Line($pc_, $pd_);
+        $ad = new Line($pa_, $pd_);
+        if (($ab->getAngle($ad) == (pi() / 2)) and ($cb->getAngle($cd) == (pi() / 2))) {
+            $this->pa_ = $pa_;
+            $this->pb_ = $pb_;
+            $this->pc_ = $pc_;
+            $this->pd_ = $pd_;
+            $this->is_invalid_ = true;
+        } else {
+            $this->is_invalid_ = false;
+        }
     }
 
     /**
@@ -248,7 +266,7 @@ class Rectangle implements ShapeInterface
                     $point_exist = true;
                 }
             }
-            if (! $point_exist) {
+            if (!$point_exist) {
                 array_push($result, $points[$i]);
             }
         }
