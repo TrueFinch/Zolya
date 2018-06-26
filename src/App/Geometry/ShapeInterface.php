@@ -2,6 +2,7 @@
 
 namespace App\Geometry;
 
+const EPS = 1e-12;
 
 interface ShapeInterface
 {
