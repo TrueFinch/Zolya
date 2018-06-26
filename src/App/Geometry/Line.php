@@ -324,4 +324,25 @@ class Line implements ShapeInterface
         }
         return $result;
     }
+
+    /**
+     * A scalar product
+     * @param Line $other
+     * @return float
+     */
+    public function dotProduct(Line $other): float
+    {
+        return ($this->getPb()->getX() - $this->getPa()->getX()) * ($other->getPb()->getX() - $other->getPa()->getX()) +
+            ($this->getPb()->getY() - $this->getPa()->getY()) * ($other->getPb()->getY() - $other->getPa()->getY());
+    }
+
+    /**
+     * An angle between this line and other
+     * @param Line $other
+     * @return float
+     */
+    public function getAngle(Line $other): float
+    {
+        return acos($this->dotProduct($other) / sqrt($this->dotProduct($this) * $other->dotProduct($other)));
+    }
 }
