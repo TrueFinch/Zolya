@@ -33,7 +33,7 @@ services:
         volumes:
             - ./mysql/mysql.d:/etc/mysql/conf.d
             # https://stackoverflow.com/questions/39175194/docker-compose-persistent-data-mysql
-#            - ../dump:/var/lib/mysql
+            - ../dump:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ""
             MYSQL_USER: "app"
@@ -48,17 +48,17 @@ services:
         - portainer_data:/data
       ports:
         - 9090:9000
-    phpmyadmin:
-      image: phpmyadmin/phpmyadmin:4.8.0
-      ports:
-        - 8081:80
-      environment:
-        MYSQL_USER: "app"
-        MYSQL_PASSWORD: "app"
-        PMA_HOST: mysql
-        PMA_PORT: 3306
-      depends_on:
-        - mysql
+#    phpmyadmin:
+#      image: phpmyadmin/phpmyadmin:4.8.0
+#      ports:
+#        - 8081:80
+#      environment:
+#        MYSQL_USER: "app"
+#        MYSQL_PASSWORD: "app"
+#        PMA_HOST: mysql
+#        PMA_PORT: 3306
+#      depends_on:
+#        - mysql
 
 volumes:
   portainer_data:
