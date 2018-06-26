@@ -303,7 +303,10 @@ class Rectangle implements ShapeInterface
         $cb = new Line($this->getPc(), $this->getPb());
         $cd = new Line($this->getPc(), $this->getPd());
         $ad = new Line($this->getPa(), $this->getPd());
-        if ((abs($ab->getAngle($ad) - (pi() / 2)) < EPS) and (abs($cb->getAngle($cd) - (pi() / 2)) < EPS)) {
+        if (($ab->getPerimeter() == 0) or ($ab->getPerimeter() == 0) or
+            ($ab->getPerimeter() == 0) or ($ab->getPerimeter() == 0)) {
+            $this->is_invalid_ = true;
+        } elseif ((abs($ab->getAngle($ad) - (pi() / 2)) < EPS) and (abs($cb->getAngle($cd) - (pi() / 2)) < EPS)) {
             $this->is_invalid_ = false;
         } else {
             $this->is_invalid_ = true;
