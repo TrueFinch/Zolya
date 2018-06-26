@@ -19,6 +19,8 @@ class Line implements ShapeInterface
      */
     private const NAME = 'Line';
 
+    private $utils;
+
     /**
      * Boundaries of a segment
      * @var Point
@@ -38,6 +40,7 @@ class Line implements ShapeInterface
      */
     public function __construct(Point $pa_, Point $pb_)
     {
+        $this->utils = new GeometryUtils();
         $this->pa_ = $pa_;
         $this->pb_ = $pb_;
         $this->recalculateParameters();
@@ -222,9 +225,9 @@ class Line implements ShapeInterface
         $b2 = $p[1];
         $c2 = $p[2];
 
-        $zn1 = det($a1, $b1, $a2, $b2);
-        $zn2 = det($a1, $c1, $a2, $c2);
-        $zn3 = det($b1, $c1, $b2, $c2);
+        $zn1 = $this->utils->det($a1, $b1, $a2, $b2);
+        $zn2 = $this->utils->det($a1, $c1, $a2, $c2);
+        $zn3 = $this->utils->det($b1, $c1, $b2, $c2);
 
         if ($zn1 == 0) {
             if (($zn2 == 0) and ($zn3 == 0)) {
