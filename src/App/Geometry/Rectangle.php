@@ -16,10 +16,10 @@ namespace App\Geometry;
 class Rectangle implements ShapeInterface
 {
     /**
-     * True if rectangle is valid, false if invalid
+     * True if rectangle is invalid, false if valid
      * @var bool
      */
-    private $is_invalid_ = false;
+    private $is_invalid_ = true;
 
     /**
      * $pa_ - left bottom point of rectangle
@@ -33,7 +33,7 @@ class Rectangle implements ShapeInterface
     /**
      * @var string $name_ name of class? idk
      */
-    private $name_;
+    private const NAME = 'Rectangle';
 
     /**
      * Rectangle constructor.
@@ -128,7 +128,7 @@ class Rectangle implements ShapeInterface
      */
     public function getPerimeter(): float
     {
-        return 2 * ($this->pa_->distance($this->pb_) + $this->pb_->distance($this->pc_));
+        return ($this->isInvalid()) ? (null) : (2 * ($this->pa_->distance($this->pb_) + $this->pb_->distance($this->pc_)));
     }
 
     /**
@@ -137,6 +137,10 @@ class Rectangle implements ShapeInterface
      */
     public function belong(Point $point): bool
     {
+        if ($this->isInvalid()) {
+            return null;
+        }
+
         $side_a = new Line($this->getPa(), $this->getPb());
         $side_b = new Line($this->getPb(), $this->getPc());
         $side_c = new Line($this->getPc(), $this->getPd());
@@ -150,7 +154,7 @@ class Rectangle implements ShapeInterface
      */
     public function getArea(): float
     {
-        return $this->pa_->distance($this->pb_) * $this->pb_->distance($this->pc_);
+        return ($this->isInvalid()) ? (null) : ($this->pa_->distance($this->pb_) * $this->pb_->distance($this->pc_));
     }
 
     /**
@@ -158,15 +162,7 @@ class Rectangle implements ShapeInterface
      */
     public function getName(): string
     {
-        return $this->name_;
-    }
-
-    /**
-     * @param string $name_
-     */
-    public function setName(string $name_): void
-    {
-        $this->name_ = $name_;
+        return ($this->isInvalid()) ? (null) : (self::NAME);
     }
 
     /**
@@ -190,7 +186,7 @@ class Rectangle implements ShapeInterface
         $result = array();
 
         /**
-         * Sides of rectangle rect
+         * Sides of this rectangle
          * @var Line
          */
         $side_a1 = new Line($this->getPa(), $this->getPb());
@@ -198,6 +194,10 @@ class Rectangle implements ShapeInterface
         $side_c1 = new Line($this->getPc(), $this->getPd());
         $side_d1 = new Line($this->getPd(), $this->getPa());
 
+        /**
+         * Sides of the rectangle rect
+         * @var Line
+         */
         $side_a2 = new Line($rect->getPa(), $rect->getPb());
         $side_b2 = new Line($rect->getPb(), $rect->getPc());
         $side_c2 = new Line($rect->getPc(), $rect->getPd());
@@ -278,8 +278,11 @@ class Rectangle implements ShapeInterface
      * @param $shape
      * @return array
      */
-    public function intersect($shape): array
+    public function intersect(ShapeInterface $shape): array
     {
+        if ($this->isInvalid()) {
+            return null;
+        }
         /**
          * @var array of Points
          */
@@ -296,5 +299,13 @@ class Rectangle implements ShapeInterface
                 break;
         }
         return $result;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInvalid()
+    {
+        return $this->is_invalid_;
     }
 }
