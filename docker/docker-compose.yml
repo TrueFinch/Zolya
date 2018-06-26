@@ -16,10 +16,6 @@ services:
         expose:
             - 9000
         command: php-fpm -R -y /data/docker/php/php-fpm.conf
-        environment:
-            PHP_XDEBUG_ENABLED: 1
-            XDEBUG_CONFIG: "remote_host=217.150.72.94"
-            PHP_IDE_CONFIG: "serverName=Test"
     composer:
         image: composer:1.6.3
         volumes:
@@ -49,17 +45,5 @@ services:
         - portainer_data:/data
       ports:
         - 9090:9000
-#    phpmyadmin:
-#      image: phpmyadmin/phpmyadmin:4.8.0
-#      ports:
-#        - 8081:80
-#      environment:
-#        MYSQL_USER: "app"
-#        MYSQL_PASSWORD: "app"
-#        PMA_HOST: mysql
-#        PMA_PORT: 3306
-#      depends_on:
-#        - mysql
-
 volumes:
   portainer_data:
