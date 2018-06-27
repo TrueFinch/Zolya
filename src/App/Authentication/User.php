@@ -16,28 +16,36 @@ class User implements UserInterface
      *
      * @var int
      */
-    private $id;
+    private $id_;
 
     /**
      * Represents user's login in the table users
      *
      * @var string
      */
-    private $login;
+    private $login_;
 
     /**
      * Represents user's password (it's hash) in the table users
      *
      * @var string
      */
-    private $password;
+    private $password_;
 
     /**
      * Represents user's salt in the table users
      *
      * @var string
      */
-    private $salt;
+    private $salt_;
+
+    public function __construct(int $id, string $login, string $password, string $salt)
+    {
+        $this->id_ = $id;
+        $this->login_ = $login;
+        $this->password_ = $password;
+        $this->salt_ = $salt;
+    }
 
     /**
      * Метод возвращает идентификационную информацию пользователя (первичный ключ в БД пользователей приложения)
@@ -46,7 +54,7 @@ class User implements UserInterface
      */
     public function getId(): int
     {
-        // TODO: Implement getId() method.
+        return $this->id_;
     }
 
     /**
@@ -56,7 +64,7 @@ class User implements UserInterface
      */
     public function getLogin(): string
     {
-        // TODO: Implement getLogin() method.
+        return $this->login_;
     }
 
     /**
@@ -66,7 +74,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        // TODO: Implement getPassword() method.
+        return $this->password_;
     }
 
     /**
@@ -76,6 +84,6 @@ class User implements UserInterface
      */
     public function getSalt(): ?string
     {
-        // TODO: Implement getSalt() method.
+        return $this->salt_;
     }
 }
