@@ -37,9 +37,7 @@ class UserRepository implements UserRepositoryInterface
         $query->execute();
         $record = $query->get_result()->fetch_assoc();
         $query->close();
-        return ($record) ? ($record) : (null);
-        // TODO: Implement findById() method.
-        // TODO: Rewrite return part - we need return UserInterface instead of array.
+        return ($record) ? (new User($record['id'], $record['login'], $record['password'], $record['salt'])) : (null);
     }
 
     /**
@@ -55,9 +53,7 @@ class UserRepository implements UserRepositoryInterface
         $query->execute();
         $record = $query->get_result()->fetch_assoc();
         $query->close();
-        return ($record) ? ($record) : (null);
-        // TODO: Implement findByLogin() method.
-        // TODO: Rewrite return part - we need return UserInterface instead of array.
+        return ($record) ? (new User($record['id'], $record['login'], $record['password'], $record['salt'])) : (null);
     }
 
     /**
